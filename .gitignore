@@ -1,0 +1,14 @@
+# Modèles PyTorch
+*.pt
+
+# Archives
+*.zip
+*.rar
+*.7z
+
+# Environnement Python
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/

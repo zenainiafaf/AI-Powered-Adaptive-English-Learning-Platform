@@ -1,0 +1,241 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Listening Exercise</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="{% static 'generate_listening.css' %}" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════════════ -->
+<header class="gl-header">
+    <a id="back-btn" href="/" class="gl-back-btn">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+    </a>
+    <div class="gl-header-center">
+
+        <h1 class="gl-header-title" id="page-title">Listening Exercise</h1>
+        <p class="gl-header-sub" id="page-theme"></p>
+    </div>
+    <div class="gl-header-right">
+        <span class="gl-level-badge" id="level-badge"></span>
+    </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════
+     GENERATING STATE (polling)
+══════════════════════════════════════════════════════════ -->
+<div id="generating-state" class="gl-state-wrapper" style="display:none;">
+    <div class="gl-gen-card">
+        <div class="gl-orbit">
+            <div class="gl-orbit-ring"></div>
+            <div class="gl-orbit-ring gl-orbit-ring--2"></div>
+            <div class="gl-orbit-core">
+                <i class="fas fa-wand-magic-sparkles"></i>
+            </div>
+        </div>
+        <h2 class="gl-gen-title">Creating your exercise</h2>
+        <p class="gl-gen-sub" id="gen-status-text">Starting AI generation…</p>
+
+        <div class="gl-steps">
+            <div class="gl-step" id="step-1">
+                <div class="gl-step-dot"></div>
+                <span>Writing transcript</span>
+            </div>
+            <div class="gl-step-line"></div>
+            <div class="gl-step" id="step-2">
+                <div class="gl-step-dot"></div>
+                <span>Converting to audio</span>
+            </div>
+            <div class="gl-step-line"></div>
+            <div class="gl-step" id="step-3">
+                <div class="gl-step-dot"></div>
+                <span>Building questions</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     ERROR STATE
+══════════════════════════════════════════════════════════ -->
+<div id="error-state" class="gl-state-wrapper" style="display:none;">
+    <div class="gl-error-card">
+        <div class="gl-error-icon"><i class="fas fa-triangle-exclamation"></i></div>
+        <h2>Generation failed</h2>
+        <p id="error-message">An error occurred.</p>
+        <a id="error-back-btn" href="/" class="gl-btn gl-btn-secondary">
+            <i class="fas fa-arrow-left"></i> Go Back
+        </a>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     EXERCISE CONTENT
+══════════════════════════════════════════════════════════ -->
+<main id="exercise-content" class="gl-main" style="display:none;">
+
+    <!-- Audio Card -->
+    <section class="gl-audio-card">
+        <div class="gl-audio-top">
+            <div class="gl-audio-meta">
+                <span class="gl-audio-label"><i class="fas fa-microphone-lines"></i> AI Audio</span>
+                <h2 class="gl-audio-title" id="audio-title">Generated Clip</h2>
+            </div>
+            <div class="gl-listen-status" id="listen-hint">
+                <i class="fas fa-headphones"></i>
+                <span>Listen first</span>
+            </div>
+        </div>
+
+        <audio id="audio-element" preload="auto"></audio>
+
+        <!-- Animated bars (visual only) -->
+        <div class="gl-wave" id="wave-bars">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Player controls -->
+        <div class="gl-player-row">
+            <button id="btn-play" class="gl-play-btn" aria-label="Play/Pause">
+                <i id="play-icon" class="fas fa-play"></i>
+            </button>
+            <div class="gl-seek-wrap" id="progress-container">
+                <div class="gl-seek-track">
+                    <div class="gl-seek-fill" id="progress-fill"></div>
+                </div>
+                <div class="gl-time" id="time-display">0:00 / 0:00</div>
+            </div>
+        </div>
+
+        <div class="gl-player-footer">
+            <div class="gl-speed-group">
+                <span>Speed:</span>
+                <button class="gl-speed-btn" data-speed="0.75">0.75×</button>
+                <button class="gl-speed-btn active" data-speed="1">1×</button>
+                <button class="gl-speed-btn" data-speed="1.25">1.25×</button>
+            </div>
+            <button id="btn-replay" class="gl-replay-btn">
+                <i class="fas fa-rotate-right"></i> Replay
+            </button>
+        </div>
+    </section>
+
+    <!-- Questions Card -->
+    <section class="gl-q-card" id="questions-section">
+        <div class="gl-q-header">
+            <div class="gl-q-header-left">
+                <h3 class="gl-q-title">Questions</h3>
+                <span class="gl-q-counter" id="question-counter">1 / 10</span>
+            </div>
+            <div class="gl-dots" id="question-dots"></div>
+        </div>
+
+        <div class="gl-q-body" id="question-card">
+            <!-- Dynamic -->
+        </div>
+
+        <div class="gl-q-nav">
+            <button id="btn-prev" class="gl-btn gl-btn-ghost" disabled>
+                <i class="fas fa-chevron-left"></i> Prev
+            </button>
+            <button id="btn-next" class="gl-btn gl-btn-primary" disabled>
+                Next <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Submit Card -->
+    <section id="submit-section" class="gl-submit-card" style="display:none;">
+        <div class="gl-submit-inner">
+            <i class="fas fa-flag-checkered gl-submit-icon"></i>
+            <h3>All done?</h3>
+            <p>Submit your answers to see your score.</p>
+            <button id="btn-submit" class="gl-btn gl-btn-primary gl-btn-lg">
+                <i class="fas fa-check"></i> Submit Answers
+            </button>
+        </div>
+    </section>
+
+    <!-- Result Panel -->
+    <section id="result-panel" class="gl-result-card" style="display:none;">
+        <div class="gl-score-wrap">
+            <div class="gl-score-circle" id="score-circle">
+                <svg viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="50" class="gl-ring-bg"/>
+                    <circle cx="60" cy="60" r="50" class="gl-ring-fill" id="score-ring-fill"/>
+                </svg>
+                <div class="gl-score-inner">
+                    <span class="gl-score-num" id="result-score">0</span>
+                    <span class="gl-score-pct">%</span>
+                </div>
+            </div>
+        </div>
+        <h2 class="gl-result-feedback" id="result-feedback">Well done!</h2>
+        <p class="gl-result-detail" id="result-detail">0 / 10 correct answers</p>
+
+        <div class="gl-result-actions" id="result-actions"></div>
+
+        <div class="gl-review" id="result-review" style="display:none;"></div>
+    </section>
+
+</main>
+
+<!-- ══════════════════════════════════════════════════════════
+     MODAL — Already Done (2nd click "Generate New Exercise")
+══════════════════════════════════════════════════════════ -->
+<div id="already-done-modal" class="gl-modal-overlay" style="display:none;" role="dialog" aria-modal="true">
+    <div class="gl-modal">
+        <button class="gl-modal-close" id="modal-close-x" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="gl-modal-score-wrap">
+            <div class="gl-modal-circle" id="modal-score-circle">
+                <svg viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="50" class="gl-ring-bg"/>
+                    <circle cx="60" cy="60" r="50" class="gl-ring-fill" id="modal-ring-fill"/>
+                </svg>
+                <div class="gl-score-inner">
+                    <span class="gl-score-num" id="modal-score">0</span>
+                    <span class="gl-score-pct">%</span>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="gl-modal-title" id="modal-feedback">Well done!</h2>
+        <p class="gl-modal-detail" id="modal-detail">0 / 10 correct answers</p>
+
+        <p class="gl-modal-info">
+            <i class="fas fa-circle-info"></i>
+            You already completed this generated exercise.
+        </p>
+
+        <div class="gl-modal-actions">
+            <button id="modal-show-result-btn" class="gl-btn gl-btn-primary">
+                <i class="fas fa-chart-bar"></i> Show Results
+            </button>
+            <button id="modal-close-btn" class="gl-btn gl-btn-ghost">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'generate_listening.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishLearn - Reading Comprehension</title>
+    {% load static %}
+
+     <!-- statique exercise  -->
+    <link rel="stylesheet" href="{% static 'comprehension-ecrite.css' %}">
+
+    <!-- reading agent  -->
+    <link rel="stylesheet" href="{% static 'chatbot-adaptive.css' %}">
+    
+    <!-- statique exercise  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <span class="brand-icon"><i class="fas fa-graduation-cap"></i></span>
+        <span class="brand-name">EnglishLearn</span>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <a href="/" class="nav-item" data-page="dashboard">
+            <i class="fas fa-book-open"></i>
+            <span>Home</span>
+        </a>
+        <a href="{% url 'courses_menu' %}" class="nav-item" data-page="grammar">
+            <i class="fas fa-spell-check"></i>
+            <span>Grammar</span>
+        </a>
+        <a href="/recommendations/" class="nav-item" data-page="activities">
+            <i class="fas fa-bullseye"></i>
+            <span>Recommendations</span>
+        </a>
+        <a href="{% url 'profile' %}" class="nav-item" data-page="profile">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+        <a href="{% url 'configuration' %}" class="nav-item" data-page="Configuration">
+            <i class="fas fa-cog"></i>
+            <span>Configuration</span>
+        </a>
+        <a href="{% url 'evaluation_welcome' %}" class="nav-item" data-page="Evaluation Test">
+            <i class="fas fa-clipboard-check"></i>
+            <span>Evaluation Test</span>
+        </a>
+    </nav>
+</aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <a href="/exercise-menu/" class="back-btn" id="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </a>
+                <div class="exercise-info">
+                    <span class="exercise-type">Reading Comprehension</span>
+                    <h1 class="page-title" id="page-title">Loading...</h1>
+                </div>
+                <div class="exercise-progress">
+                    <span class="progress-text">Question <span id="current-q">1</span>/<span id="total-q">?</span></span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reading Text Section -->
+            <div class="reading-section">
+                <div class="section-header">
+                    <i class="fas fa-book-open"></i>
+                    <h2>Text to Read</h2>
+                </div>
+                <div class="reading-card">
+                    <div class="reading-text" id="reading-text">
+                        <div class="loading-message">
+                            <i class="fas fa-spinner fa-spin"></i> Loading text...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questions Section -->
+            <div class="questions-section">
+                <div class="section-header">
+                    <i class="fas fa-question-circle"></i>
+                    <h2>Questions</h2>
+                </div>
+
+                <form id="exercise-form" class="questions-form">
+                    <div class="loading-message">
+                        <i class="fas fa-spinner fa-spin"></i> Loading questions...
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="{% static 'comprehension-ecrite.js' %}"></script>
+    
+    <!-- reading agent  -->
+    <script src="{% static 'chatbot-adaptive.js' %}"></script>
+
+
+</body>
+</html>

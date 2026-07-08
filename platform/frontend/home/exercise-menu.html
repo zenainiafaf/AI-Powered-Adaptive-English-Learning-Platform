@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishLearn - Exercise Selection</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'exercise-menu.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon"><i class="fas fa-graduation-cap"></i></span>
+                <span class="brand-name">EnglishLearn</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-book-open"></i>
+                    <span>Home</span>
+                </a>
+                <a href="{% url 'courses_menu' %}" class="nav-item" data-page="grammar">
+                    <i class="fas fa-spell-check"></i>
+                    <span>Grammar</span>
+                </a>
+                <a href="/recommendations/" class="nav-item" data-page="activities">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Recommendations</span>
+                </a>
+                <a href="{% url 'profile' %}" class="nav-item" data-page="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="{% url 'configuration' %}" class="nav-item" data-page="Configuration">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuration</span>
+                </a>
+                <a href="{% url 'evaluation_welcome' %}" class="nav-item" data-page="Evaluation Test">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Evaluation Test</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <a href="/" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </a>
+                <div class="header-info">
+                    <span class="subunit-badge" id="subunit-id">1.1</span>
+                    <h1 class="page-title" id="subunit-title">Introducing Yourself</h1>
+                </div>
+            </div>
+
+            <div class="exercise-selection">
+                <h2 class="section-title">Choose an exercise type</h2>
+                <p class="section-subtitle">Select the skill you want to practice</p>
+
+                <div class="exercise-grid">
+                    <!-- Reading Comprehension -->
+                    <a href="comprehension-ecrite.html" class="exercise-card" id="comprehension-ecrite">
+                        <div class="exercise-icon blue">
+                            <i class="fas fa-book-reader"></i>
+                        </div>
+                        <div class="exercise-content">
+                            <h3>Reading Comprehension</h3>
+                            <p>Read texts and answer questions to test your understanding</p>
+                            <div class="exercise-meta">
+                                <span id="reading-score-badge" class="difficulty no-progress">No progress yet !</span>
+                            </div>
+                        </div>
+                        <div class="exercise-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- Writing -->
+                    <a href="#" class="exercise-card disabled" id="expression-ecrite">
+                        <div class="exercise-icon green">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <div class="exercise-content">
+                            <h3>Writing</h3>
+                            <p>Practice writing by composing short texts and sentences</p>
+                            <div class="exercise-meta">
+                               <span id="writing-score-badge" class="difficulty no-progress">No progress yet !</span>
+                            </div>
+                        </div>
+                        <div class="exercise-arrow">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </a>
+
+                    <!-- Listening Comprehension -->
+                    <a href="#" class="exercise-card disabled" id="comprehension-orale">
+                        <div class="exercise-icon purple">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <div class="exercise-content">
+                            <h3>Listening Comprehension</h3>
+                            <p>Listen to dialogues and conversations to improve your listening</p>
+                            <div class="exercise-meta">
+                               <span id="listening-score-badge" class="difficulty no-progress">No progress yet !</span>
+                            </div>
+                        </div>
+                        <div class="exercise-arrow">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </a>
+
+                    <!-- Speaking -->
+                    <a href="#" class="exercise-card disabled" id="expression-orale">
+                        <div class="exercise-icon orange">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <div class="exercise-content">
+                            <h3>Speaking</h3>
+                            <p>Practice pronunciation and fluency by speaking aloud</p>
+                            <div class="exercise-meta">
+                               <span id="speaking-score-badge" class="difficulty no-progress">No progress yet !</span>
+                            </div>
+                        </div>
+                        <div class="exercise-arrow">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Progress Info -->
+            <div class="progress-section">
+                <h3>Your progress in this sub-unit</h3>
+                <div class="progress-bar-container">
+                    <div class="progress-track">  <!-- ← conteneur gris renommé -->
+                        <div id="subunit-progress-bar" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <!--<span id="subunit-progress-text" class="progress-text">0/4 exercises completed</span>-->
+                    <div id="global-progress-badge" class="progress-badge not-started">Start learning!</div>
+                </div>
+               <!--<div id="global-progress-badge" class="progress-badge not-started">Start learning!</div>-->
+            </div>
+        </main>
+    </div>
+
+    <script src="{% static 'exercise-menu.js' %}"></script>
+</body>
+</html>

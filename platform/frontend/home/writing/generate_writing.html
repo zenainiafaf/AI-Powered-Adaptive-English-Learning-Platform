@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Writing Exercise</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'generate_writing.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     HEADER
+══════════════════════════════════════ -->
+<header class="page-header">
+    <a id="back-btn" href="#" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+    <div class="header-info">
+        <div class="subunit-id" id="subunit-id">1.1</div>
+        <div class="subunit-title" id="subunit-title">Writing Exercise</div>
+    </div>
+    <span class="ai-badge-header">
+        <i class="fas fa-wand-magic-sparkles"></i> AI Generated
+    </span>
+</header>
+
+<!-- ══════════════════════════════════════
+     MAIN
+══════════════════════════════════════ -->
+<main class="main-content">
+
+    <!-- ── Loading State ── -->
+    <div id="loading-state" style="display:flex;">
+        <div class="loading-icon">✨</div>
+        <div class="loading-text">Generating your exercise…</div>
+        <div class="loading-sub">Our AI is crafting a unique writing prompt based on your theme.</div>
+        <div class="loading-dots">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <!-- ── Exercise Content ── -->
+    <div id="exercise-content" style="display:none;">
+
+        <!-- AI Banner -->
+        <div class="ai-banner">
+            <div class="ai-banner-icon">🤖</div>
+            <div class="ai-banner-text">
+                <strong>AI-Generated Exercise</strong>
+                <span>This prompt was created by AI on the same theme as your original exercise.</span>
+            </div>
+        </div>
+
+        <!-- Prompt Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-pencil-alt"></i> Writing Prompt</h3>
+                <span class="word-target-badge">
+                    <i class="fas fa-align-left"></i>
+                    <span id="word-target">60-80 words</span>
+                </span>
+            </div>
+            <div class="card-body">
+                <p class="instruction-text" id="instruction-text">Loading prompt…</p>
+
+                <!-- Guiding Points -->
+                <div class="guiding-points" id="guiding-points">
+                    <h4><i class="fas fa-list-ul"></i> Points to Cover</h4>
+                    <ul id="points-list"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Writing Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-keyboard"></i> Your Answer</h3>
+            </div>
+            <div class="card-body">
+                <div class="textarea-wrapper">
+                    <textarea
+                        id="writing-textarea"
+                        class="writing-textarea"
+                        placeholder="Write your paragraph here…"
+                    ></textarea>
+                </div>
+                <div class="textarea-footer">
+                    <span class="word-counter" id="word-counter">0 words</span>
+                </div>
+                <div class="submit-row">
+                    <button class="btn btn-primary" id="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /#exercise-content -->
+
+    <!-- ── Already Submitted ── -->
+    <div id="already-submitted" style="display:none;">
+        <div class="already-card">
+            <div class="already-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2>Exercise Already Completed!</h2>
+            <p>You have already submitted this AI-generated writing exercise.</p>
+
+            <div class="already-score-box" id="previous-result">
+                <!-- rempli par JS -->
+            </div>
+
+            <div class="already-actions">
+                <button class="btn btn-primary" id="view-result-btn">
+                    <i class="fas fa-eye"></i> View My Result
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Results Section ── -->
+    <div id="results-section" style="display:none;">
+
+        <!-- Score Header -->
+        <div class="card">
+            <div class="card-body" style="text-align:center; padding:2rem 1.5rem;">
+                <div class="score-circle-wrapper">
+                    <div class="score-circle">
+                        <span class="score-number" id="score-value">0</span>
+                        <span class="score-label">Score</span>
+                    </div>
+                </div>
+                <div class="score-breakdown" id="score-breakdown">
+                    <!-- rempli par JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-comment-dots"></i> Feedback</h3>
+            </div>
+            <div class="card-body">
+                <div id="feedback-content"><!-- rempli par JS --></div>
+            </div>
+        </div>
+
+        <!-- Your Text Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-user-edit"></i> Your Text</h3>
+                <span style="font-size:.8rem; color:var(--gray-400);" id="user-word-count"></span>
+            </div>
+            <div class="card-body">
+                <div class="text-display-box" id="user-text-display"></div>
+
+                <!-- Toggle Model Answer -->
+                <button class="btn btn-outline-primary toggle-model-btn" id="toggle-model-btn" onclick="toggleModelAnswer()" style="display:none;">
+                    <i class="fas fa-eye"></i> Show Typical Example
+                </button>
+
+                <!-- Model Answer (hidden by default) -->
+                <div id="model-answer-section">
+                    <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--success);margin-bottom:.5rem;">
+                        <i class="fas fa-star"></i> Typical Example
+                    </div>
+                    <div id="model-text-display"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="results-actions">
+            <a id="back-to-writing-btn" href="#" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Writing
+            </a>
+        </div>
+
+    </div><!-- /#results-section -->
+
+</main><!-- /.main-content -->
+
+<!-- ══════════════════════════════════════
+     WELL DONE MODAL
+     (utilisé depuis writing.js quand le user
+      clique "Generate Another Exercise"
+      alors qu'un exercise a déjà été soumis)
+══════════════════════════════════════ -->
+<div id="well-done-modal">
+    <div class="modal-card">
+        <div class="modal-emoji">🎉</div>
+        <h2>Well done!</h2>
+        <p class="modal-desc">You have already completed your AI-generated exercise.</p>
+
+        <div class="modal-score-box">
+            <div class="m-label">Your Score</div>
+            <div class="m-score" id="modal-score">—</div>
+            <div class="m-words" id="modal-words"></div>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn btn-primary" id="modal-show-result-btn">
+                <i class="fas fa-eye"></i> Show Result
+            </button>
+            <button class="btn btn-secondary" id="modal-close-btn">
+                <i class="fas fa-times"></i> Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'generate_writing.js' %}"></script>
+</body>
+</html>
