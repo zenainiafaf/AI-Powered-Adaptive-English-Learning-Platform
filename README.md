@@ -7,4 +7,4 @@ Due to GitHub size limitations, trained models and graph data are hosted on Kagg
 - Student interaction graph
 - Database dump
 
-Available here: 
+Available here: https://www.kaggle.com/datasets/afaffarahzenaini/ai-english-learning-recommendation-resources
