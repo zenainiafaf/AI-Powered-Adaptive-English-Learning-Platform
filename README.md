@@ -34,9 +34,6 @@ The platform personalizes each learner's experience by combining:
 
 ## 🏗️ System Architecture
 
-<p align="center">
-<img src="docs/images/architecture.png" width="900">
-</p>
 
 The platform is composed of two main AI modules:
 
