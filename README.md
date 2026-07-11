@@ -90,7 +90,7 @@ The proposed approach achieved better recommendation performance than traditiona
 <img src="docs/images/home_page.png" width="900">
 </p>
 
-The landing page introduces the platform and provides access to authentication, learning activities, and personalized recommendations.
+The landing page introduces the platform and provides access to authentication
 
 ---
 
