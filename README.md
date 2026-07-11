@@ -178,7 +178,6 @@ They include:
 - Knowledge Graph
 - Student interaction graph
 - Database dump
-- Preprocessed datasets
 
 👉 https://www.kaggle.com/datasets/afaffarahzenaini/ai-english-learning-recommendation-resources
 
