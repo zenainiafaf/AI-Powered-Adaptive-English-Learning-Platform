@@ -113,7 +113,7 @@ They include:
 ## 🚀 Installation
 
 ```bash
-git clone https://github.com/your-username/AI-Powered-Adaptive-English-Learning-Platform.git
+git clone https://github.com/zenainiafaf/AI-Powered-Adaptive-English-Learning-Platform.git
 ```
 
 Install dependencies
