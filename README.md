@@ -73,7 +73,6 @@ These modules work together to recommend appropriate activities and generate per
 - HTML
 - CSS
 - JavaScript
-- Bootstrap
 
 ---
 
