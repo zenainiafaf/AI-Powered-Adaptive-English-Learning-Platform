@@ -80,10 +80,6 @@ These modules work together to recommend appropriate activities and generate per
 
 The proposed approach achieved better recommendation performance than traditional GNN-based methods by integrating Knowledge Graph information and adaptive learner modeling.
 
-<p align="center">
-<img src="docs/images/results.png" width="800">
-</p>
-
 ---
 
 ## 📸 Application Preview
